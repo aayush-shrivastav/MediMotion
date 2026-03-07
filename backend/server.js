@@ -11,6 +11,8 @@ const app = express();
 // Middleware
 const allowedOrigins = [
   'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
   'https://hacktu-medipal.vercel.app',
   'https://hacktu-medipal.onrender.com', // Your Render backend domain (if frontend calls it)
   process.env.FRONTEND_URL // Set in Render env vars

@@ -24,45 +24,54 @@ const seedDatabase = async () => {
     const doctor1 = await User.create({
       name: 'Dr. Sarah Chen',
       email: 'doctor@fitcred.com',
-      password: hashedPassword,
+      passwordHash: hashedPassword,
       role: 'doctor'
     });
 
     const doctor2 = await User.create({
       name: 'Dr. Michael Roberts',
       email: 'doctor2@fitcred.com',
-      password: hashedPassword,
+      passwordHash: hashedPassword,
       role: 'doctor'
     });
 
     const patient1 = await User.create({
       name: 'John Anderson',
       email: 'patient@fitcred.com',
-      password: hashedPassword,
+      passwordHash: hashedPassword,
       role: 'patient',
-      assignedDoctor: doctor1._id
+      assignedDoctor: doctor1._id,
+      age: 45,
+      sex: 'male',
+      condition: 'Type 2 Diabetes Management'
     });
 
     const patient2 = await User.create({
       name: 'Emily Martinez',
       email: 'patient2@fitcred.com',
-      password: hashedPassword,
+      passwordHash: hashedPassword,
       role: 'patient',
-      assignedDoctor: doctor1._id
+      assignedDoctor: doctor1._id,
+      age: 52,
+      sex: 'female',
+      condition: 'Hypertension Management'
     });
 
     const patient3 = await User.create({
       name: 'David Kim',
       email: 'patient3@fitcred.com',
-      password: hashedPassword,
+      passwordHash: hashedPassword,
       role: 'patient',
-      assignedDoctor: doctor2._id
+      assignedDoctor: doctor2._id,
+      age: 60,
+      sex: 'male',
+      condition: 'Post-Cardiac Event Rehabilitation'
     });
 
     const admin = await User.create({
       name: 'Admin User',
       email: 'admin@fitcred.com',
-      password: hashedPassword,
+      passwordHash: hashedPassword,
       role: 'admin'
     });
 
@@ -77,7 +86,7 @@ const seedDatabase = async () => {
       patientId: patient1._id,
       condition: 'Type 2 Diabetes Management',
       plan: {
-        exerciseType: 'Cardiovascular Exercise',
+        exerciseType: 'walking',
         weeklyGoal: 5,
         sessionDuration: 30,
         instructions: 'Moderate-intensity aerobic exercise for 30 minutes, 5 times per week.'
@@ -98,7 +107,7 @@ const seedDatabase = async () => {
       patientId: patient2._id,
       condition: 'Hypertension Management',
       plan: {
-        exerciseType: 'Walking',
+        exerciseType: 'walking',
         weeklyGoal: 4,
         sessionDuration: 25,
         instructions: 'Brisk walking for 25 minutes, 4 times per week.'
@@ -119,7 +128,7 @@ const seedDatabase = async () => {
       patientId: patient3._id,
       condition: 'Post-Cardiac Event Rehabilitation',
       plan: {
-        exerciseType: 'Supervised Cardio',
+        exerciseType: 'squat',
         weeklyGoal: 3,
         sessionDuration: 20,
         instructions: 'Low-intensity supervised cardio, 20 minutes, 3 times per week.'
@@ -139,15 +148,15 @@ const seedDatabase = async () => {
     for (let i = 0; i < 14; i++) {
       const sessionDate = new Date(startDate1);
       sessionDate.setDate(sessionDate.getDate() + i * 1.5);
-      
+
       sessions1.push({
         patientId: patient1._id,
         prescriptionId: prescription1._id,
-        exerciseType: 'Cardiovascular Exercise',
+        exerciseType: 'walking',
         duration: 30,
         verified: true,
         confidence: 85 + Math.floor(Math.random() * 15),
-        verificationSource: 'manual',
+        verificationSource: 'ai',
         timestamp: sessionDate
       });
     }
@@ -158,15 +167,15 @@ const seedDatabase = async () => {
     for (let i = 0; i < 4; i++) {
       const sessionDate = new Date(startDate2);
       sessionDate.setDate(sessionDate.getDate() + i * 3);
-      
+
       sessions2.push({
         patientId: patient2._id,
         prescriptionId: prescription2._id,
-        exerciseType: 'Walking',
+        exerciseType: 'walking',
         duration: 25,
         verified: true,
         confidence: 75 + Math.floor(Math.random() * 20),
-        verificationSource: 'manual',
+        verificationSource: 'face',
         timestamp: sessionDate
       });
     }
@@ -177,15 +186,15 @@ const seedDatabase = async () => {
     for (let i = 0; i < 3; i++) {
       const sessionDate = new Date(startDate3);
       sessionDate.setDate(sessionDate.getDate() + i * 2);
-      
+
       sessions3.push({
         patientId: patient3._id,
         prescriptionId: prescription3._id,
-        exerciseType: 'Supervised Cardio',
+        exerciseType: 'squat',
         duration: 20,
         verified: true,
         confidence: 90 + Math.floor(Math.random() * 10),
-        verificationSource: 'manual',
+        verificationSource: 'ai',
         timestamp: sessionDate
       });
     }

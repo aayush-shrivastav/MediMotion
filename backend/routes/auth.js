@@ -64,13 +64,15 @@ router.post('/signup', async (req, res) => {
     }
 
     try {
-      await registerFace(user._id.toString(), imageBuffer);
-      user.faceVerified = true;
+      if (process.env.FACE_SERVICE_URL) {
+        await registerFace(user._id.toString(), imageBuffer);
+        user.faceVerified = true;
+      } else {
+        user.faceVerified = false;
+      }
     } catch (err) {
-      return res.status(400).json({
-        message: 'Face registration failed',
-        detail: err.message || 'Unable to verify face image'
-      });
+      console.warn('Face registration skipped/failed (optional service):', err.message);
+      user.faceVerified = false;
     }
 
     await user.save();
@@ -157,7 +159,7 @@ router.get('/me', authMiddleware, async (req, res) => {
     const user = await User.findById(req.user.id)
       .select('-passwordHash')
       .populate('assignedDoctor', 'name');
-    
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
