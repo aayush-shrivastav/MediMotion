@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import logo from '../assets/logo/MediPal Logo.png';
+import logo from '../assets/logo/MediMotion Logo.png';
 
 const Layout = ({ children, title }) => {
   const { user, logout } = useAuth();
@@ -20,7 +20,7 @@ const Layout = ({ children, title }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center gap-3">
-              <img src={logo} alt="MediPal" className="h-12 w-auto" />
+              <img src={logo} alt="MediMotion" className="h-12 w-auto" />
               <div className="flex flex-col justify-center">
                 <p className="text-xs text-hospital-500 font-medium mt-1">Your Personal Medical Assistant</p>
               </div>
@@ -51,8 +51,8 @@ const Layout = ({ children, title }) => {
                 <button
                   onClick={() => navigate('/patient/home')}
                   className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${isActive('/patient/home')
-                      ? 'bg-medical-blue text-white shadow-md'
-                      : 'text-hospital-600 hover:bg-hospital-50 hover:text-medical-blue'
+                    ? 'bg-medical-blue text-white shadow-md'
+                    : 'text-hospital-600 hover:bg-hospital-50 hover:text-medical-blue'
                     }`}
                 >
                   Home
@@ -60,8 +60,8 @@ const Layout = ({ children, title }) => {
                 <button
                   onClick={() => navigate('/patient/progress')}
                   className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${isActive('/patient/progress')
-                      ? 'bg-medical-blue text-white shadow-md'
-                      : 'text-hospital-600 hover:bg-hospital-50 hover:text-medical-blue'
+                    ? 'bg-medical-blue text-white shadow-md'
+                    : 'text-hospital-600 hover:bg-hospital-50 hover:text-medical-blue'
                     }`}
                 >
                   Progress
@@ -73,8 +73,8 @@ const Layout = ({ children, title }) => {
                 <button
                   onClick={() => navigate('/doctor/dashboard')}
                   className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${isActive('/doctor/dashboard')
-                      ? 'bg-medical-blue text-white shadow-md'
-                      : 'text-hospital-600 hover:bg-hospital-50 hover:text-medical-blue'
+                    ? 'bg-medical-blue text-white shadow-md'
+                    : 'text-hospital-600 hover:bg-hospital-50 hover:text-medical-blue'
                     }`}
                 >
                   Dashboard
@@ -82,8 +82,8 @@ const Layout = ({ children, title }) => {
                 <button
                   onClick={() => navigate('/doctor/prescription/new')}
                   className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${isActive('/doctor/prescription/new')
-                      ? 'bg-medical-blue text-white shadow-md'
-                      : 'text-hospital-600 hover:bg-hospital-50 hover:text-medical-blue'
+                    ? 'bg-medical-blue text-white shadow-md'
+                    : 'text-hospital-600 hover:bg-hospital-50 hover:text-medical-blue'
                     }`}
                 >
                   New Prescription

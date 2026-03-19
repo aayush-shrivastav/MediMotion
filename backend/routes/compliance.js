@@ -45,19 +45,19 @@ router.get('/patient/:id', authMiddleware, async (req, res) => {
     let streak = 0;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     for (let i = 0; i < 30; i++) {
       const checkDate = new Date(today);
       checkDate.setDate(checkDate.getDate() - i);
       const nextDate = new Date(checkDate);
       nextDate.setDate(nextDate.getDate() + 1);
-      
+
       const hasSession = sessions.some(s => {
         const sessionDate = new Date(s.timestamp);
         sessionDate.setHours(0, 0, 0, 0);
         return sessionDate.getTime() === checkDate.getTime();
       });
-      
+
       if (hasSession) {
         streak++;
       } else if (i > 0) {
@@ -106,45 +106,47 @@ router.get('/summary/:doctorId', authMiddleware, async (req, res) => {
       status: 'active'
     }).populate('patientId', 'name email');
 
-  const summaries = await Promise.all(
-    prescriptions.map(async (prescription) => {
-      const sessions = await Session.find({
-        patientId: prescription.patientId._id,
-        prescriptionId: prescription._id,
-        verified: true
-      });
+    const summaries = await Promise.all(
+      prescriptions.map(async (prescription) => {
+        if (!prescription.patientId) return null; // Handle orphaned prescriptions
 
-      const daysSinceStart = Math.floor(
-        (Date.now() - prescription.startDate.getTime()) / (1000 * 60 * 60 * 24)
-      );
-      const weeksElapsed = Math.max(1, Math.ceil(daysSinceStart / 7));
-      const sessionsRequired = weeksElapsed * prescription.plan.weeklyGoal;
-      const sessionsCompleted = sessions.length;
-      const adherencePercentage = Math.min(100, Math.round((sessionsCompleted / sessionsRequired) * 100));
+        const sessions = await Session.find({
+          patientId: prescription.patientId._id,
+          prescriptionId: prescription._id,
+          verified: true
+        });
 
-      // Calculate average form accuracy from verified sessions
-      const avgFormAccuracy = sessions.length > 0
-        ? Math.round(sessions.reduce((sum, s) => sum + (s.formAccuracy || s.postureScore || 0), 0) / sessions.length)
-        : 0;
+        const daysSinceStart = Math.floor(
+          (Date.now() - prescription.startDate.getTime()) / (1000 * 60 * 60 * 24)
+        );
+        const weeksElapsed = Math.max(1, Math.ceil(daysSinceStart / 7));
+        const sessionsRequired = weeksElapsed * prescription.plan.weeklyGoal;
+        const sessionsCompleted = sessions.length;
+        const adherencePercentage = Math.min(100, Math.round((sessionsCompleted / sessionsRequired) * 100));
 
-      const riskStatus = adherencePercentage >= prescription.complianceThreshold
-        ? 'on_track'
-        : 'at_risk';
+        // Calculate average form accuracy from verified sessions
+        const avgFormAccuracy = sessions.length > 0
+          ? Math.round(sessions.reduce((sum, s) => sum + (s.formAccuracy || s.postureScore || 0), 0) / sessions.length)
+          : 0;
 
-      return {
-        patient: prescription.patientId,
-        condition: prescription.condition,
-        adherencePercentage,
-        riskStatus,
-        sessionsCompleted,
-        sessionsRequired,
-        avgFormAccuracy,
-        prescription
-      };
-    })
-  );
+        const riskStatus = adherencePercentage >= prescription.complianceThreshold
+          ? 'on_track'
+          : 'at_risk';
 
-    res.json(summaries);
+        return {
+          patient: prescription.patientId,
+          condition: prescription.condition,
+          adherencePercentage,
+          riskStatus,
+          sessionsCompleted,
+          sessionsRequired,
+          avgFormAccuracy,
+          prescription
+        };
+      })
+    );
+
+    res.json(summaries.filter(Boolean));
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

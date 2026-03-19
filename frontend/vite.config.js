@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
-        name: 'MediPal',
-        short_name: 'MediPal',
+        name: 'MediMotion',
+        short_name: 'MediMotion',
         description: 'Your Personal Medical Assistant',
         theme_color: '#1e40af',
         background_color: '#ffffff',

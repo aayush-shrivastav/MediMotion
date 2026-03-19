@@ -1,4 +1,4 @@
-# MediPal Medical Compliance PWA
+# MediMotion Medical Compliance PWA
 
 A hospital-grade Progressive Web App for tracking prescribed exercise compliance, with role-based dashboards for doctors and patients and AI-assisted session verification.
 
@@ -135,7 +135,7 @@ After seeding the database:
 ## Project Structure
 
 ```
-HACKTU-MediPal/
+MediMotion/
 ├── backend/
 │   ├── models/          # Mongoose schemas
 │   ├── routes/          # API endpoints

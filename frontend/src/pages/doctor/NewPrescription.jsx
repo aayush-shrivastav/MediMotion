@@ -287,14 +287,22 @@ const NewPrescription = () => {
                   </div>
                   <div>
                     <label className="label">Regimen *</label>
-                    <input
-                      type="text"
+                    <select
                       value={formData.regimenName}
                       onChange={(e) => setFormData({ ...formData, regimenName: e.target.value })}
                       className="input-field"
-                      placeholder="Select regimen"
                       required
-                    />
+                    >
+                      <option value="">Select regimen</option>
+                      <option value="Type 2 Diabetes Management">Type 2 Diabetes Management</option>
+                      <option value="Hypertension Management">Hypertension Management</option>
+                      <option value="Post-Cardiac Event Rehabilitation">Post-Cardiac Event Rehabilitation</option>
+                      <option value="Weight Management">Weight Management</option>
+                      <option value="Post-ACL Rehab">Post-ACL Rehab</option>
+                      <option value="Lower Back Program">Lower Back Program</option>
+                      <option value="Core Stabilization">Core Stabilization</option>
+                      <option value="Knee Flexion Rehab">Knee Flexion Rehab</option>
+                    </select>
                   </div>
                   <div>
                     <label className="label">Frequency *</label>
